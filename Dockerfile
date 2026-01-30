@@ -45,7 +45,7 @@ RUN { \
 
 # Download and extract Revive Ad Server
 WORKDIR /tmp
-RUN wget https://github.com/revive-adserver/revive-adserver/releases/download/v6.0.5/revive-adserver-6.0.5.zip \
+RUN wget https://download.revive-adserver.com/revive-adserver-6.0.5.zip \
     && unzip revive-adserver-6.0.5.zip \
     && rm -rf /var/www/html/* \
     && cp -r revive-adserver-6.0.5/* /var/www/html/ \
