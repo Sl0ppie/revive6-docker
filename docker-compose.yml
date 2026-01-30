@@ -1,0 +1,50 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: revive-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-revive}
+      MYSQL_USER: ${MYSQL_USER:-revive}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-revivepassword}
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - revive-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  revive:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: revive-adserver
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8080}:80"
+    environment:
+      REVIVE_DB_HOST: mysql
+      REVIVE_DB_NAME: ${MYSQL_DATABASE:-revive}
+      REVIVE_DB_USER: ${MYSQL_USER:-revive}
+      REVIVE_DB_PASSWORD: ${MYSQL_PASSWORD:-revivepassword}
+    volumes:
+      - revive-data:/var/www/html
+    networks:
+      - revive-network
+    depends_on:
+      mysql:
+        condition: service_healthy
+
+volumes:
+  mysql-data:
+    driver: local
+  revive-data:
+    driver: local
+
+networks:
+  revive-network:
+    driver: bridge

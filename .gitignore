@@ -1,0 +1,10 @@
+# Environment files
+.env
+
+# Docker volumes
+/mysql-data/
+/revive-data/
+
+# Temporary files
+*.log
+*.tmp
