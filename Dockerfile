@@ -10,7 +10,6 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libonig-dev \
     unzip \
-    wget \
     && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions required by Revive Ad Server
@@ -43,10 +42,10 @@ RUN { \
     echo 'opcache.max_accelerated_files = 10000'; \
     } > /usr/local/etc/php/conf.d/revive-adserver.ini
 
-# Download and extract Revive Ad Server
+# Copy and extract Revive Ad Server
 WORKDIR /tmp
-RUN wget https://download.revive-adserver.com/revive-adserver-6.0.5.zip \
-    && unzip revive-adserver-6.0.5.zip \
+COPY revive-adserver-6.0.5.zip .
+RUN unzip revive-adserver-6.0.5.zip \
     && rm -rf /var/www/html/* \
     && cp -r revive-adserver-6.0.5/* /var/www/html/ \
     && rm -rf /tmp/revive-adserver-6.0.5 revive-adserver-6.0.5.zip
