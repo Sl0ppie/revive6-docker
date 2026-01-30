@@ -15,7 +15,7 @@ This repository provides a Docker Compose setup for running [Revive Ad Server](h
 ## Prerequisites
 
 - Docker (version 20.10 or later)
-- Docker Compose (version 1.29 or later)
+- Docker Compose V2 (version 2.0 or later)
 
 ## Quick Start
 
@@ -34,7 +34,7 @@ This repository provides a Docker Compose setup for running [Revive Ad Server](h
 
 3. **Start the services:**
    ```bash
-   docker-compose up -d
+   docker compose up -d
    ```
 
 4. **Access Revive Ad Server:**
@@ -52,7 +52,7 @@ This repository provides a Docker Compose setup for running [Revive Ad Server](h
    - **Database Server:** `mysql`
    - **Database Name:** `revive` (or the value from your .env file)
    - **Username:** `revive` (or the value from your .env file)
-   - **Password:** `revivepassword` (or the value from your .env file)
+   - **Password:** The password you set in your .env file
 
 ## Configuration
 
@@ -62,10 +62,10 @@ Edit the `.env` file to customize your installation:
 
 | Variable | Default Value | Description |
 |----------|---------------|-------------|
-| `MYSQL_ROOT_PASSWORD` | `rootpassword` | MySQL root password |
+| `MYSQL_ROOT_PASSWORD` | `changeme_root_password` | MySQL root password (change this!) |
 | `MYSQL_DATABASE` | `revive` | Database name for Revive Ad Server |
 | `MYSQL_USER` | `revive` | Database user |
-| `MYSQL_PASSWORD` | `revivepassword` | Database password |
+| `MYSQL_PASSWORD` | `changeme_db_password` | Database password (change this!) |
 | `WEB_PORT` | `8080` | Port to access the web interface |
 
 ### Custom PHP Settings
@@ -80,32 +80,32 @@ The Dockerfile includes optimized PHP settings for Revive Ad Server:
 
 ### Start Services
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 ### Stop Services
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ### View Logs
 ```bash
 # All services
-docker-compose logs -f
+docker compose logs -f
 
 # Specific service
-docker-compose logs -f revive
-docker-compose logs -f mysql
+docker compose logs -f revive
+docker compose logs -f mysql
 ```
 
 ### Restart Services
 ```bash
-docker-compose restart
+docker compose restart
 ```
 
 ### Remove Everything (including volumes)
 ```bash
-docker-compose down -v
+docker compose down -v
 ```
 
 ## Data Persistence
@@ -119,16 +119,16 @@ Your data will persist even if containers are stopped or removed (unless you use
 ## Troubleshooting
 
 ### Can't connect to database during installation
-- Ensure the MySQL container is healthy: `docker-compose ps`
-- Check MySQL logs: `docker-compose logs mysql`
+- Ensure the MySQL container is healthy: `docker compose ps`
+- Check MySQL logs: `docker compose logs mysql`
 - Wait a few seconds after starting for MySQL to fully initialize
 
 ### Permission issues
 The Dockerfile sets proper permissions automatically. If you encounter issues:
 ```bash
-docker-compose exec revive chown -R www-data:www-data /var/www/html
-docker-compose exec revive chmod -R 755 /var/www/html
-docker-compose exec revive chmod -R 777 /var/www/html/var
+docker compose exec revive chown -R www-data:www-data /var/www/html
+docker compose exec revive chmod -R 755 /var/www/html
+docker compose exec revive chmod -R 775 /var/www/html/var
 ```
 
 ### Port already in use

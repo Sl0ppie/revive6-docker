@@ -46,12 +46,9 @@ RUN { \
 WORKDIR /tmp
 RUN wget https://github.com/revive-adserver/revive-adserver/releases/download/v6.0.5/revive-adserver-6.0.5.zip \
     && unzip revive-adserver-6.0.5.zip \
-    && rm revive-adserver-6.0.5.zip
-
-# Copy Revive Ad Server to web root
-RUN rm -rf /var/www/html/* \
+    && rm -rf /var/www/html/* \
     && cp -r revive-adserver-6.0.5/* /var/www/html/ \
-    && rm -rf /tmp/revive-adserver-6.0.5
+    && rm -rf /tmp/revive-adserver-6.0.5 revive-adserver-6.0.5.zip
 
 # Set proper permissions
 RUN chown -R www-data:www-data /var/www/html \
@@ -60,7 +57,7 @@ RUN chown -R www-data:www-data /var/www/html \
 # Create var directory with proper permissions
 RUN mkdir -p /var/www/html/var \
     && chown -R www-data:www-data /var/www/html/var \
-    && chmod -R 777 /var/www/html/var
+    && chmod -R 775 /var/www/html/var
 
 WORKDIR /var/www/html
 
