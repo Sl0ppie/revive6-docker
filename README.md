@@ -1,11 +1,11 @@
 # Revive Ad Server Docker Setup
 
-This repository provides a Docker Compose setup for running [Revive Ad Server](https://www.revive-adserver.com/) v6.0.5 with MySQL 8.0 and PHP 8.1.
+This repository provides a Docker Compose setup for running [Revive Ad Server](https://www.revive-adserver.com/) v6.0.5 with MySQL 8.0 and PHP 7.4.
 
 ## Features
 
 - **MySQL 8.0** database server
-- **PHP 8.1** with Apache web server
+- **PHP 7.4** with Apache web server
 - **Revive Ad Server v6.0.5** (latest version) - uses local copy for faster builds
 - All required PHP extensions (intl, mbstring, mysqli, xml, zip, gd, opcache)
 - Persistent data volumes for database and application files
@@ -147,7 +147,7 @@ For production use:
 ## Version Information
 
 - **Revive Ad Server:** v6.0.5
-- **PHP:** 8.1
+- **PHP:** 7.4
 - **MySQL:** 8.0
 - **Apache:** 2.4 (included in PHP image)
 
